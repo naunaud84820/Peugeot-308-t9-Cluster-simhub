@@ -32,10 +32,10 @@ public:
 
   void read() { // Runs on every message sent 
     rpm = FlowSerialReadStringUntil(';').toInt();
-    if(rpm > 7000) {
-      rpm = 7000;
+    if(rpm > 7000) { //change RPM max here
+      rpm = 7000; //and here
     }
-    rpmGate = map(rpm, 0, 7000, 0, 220);
+    rpmGate = map(rpm, 0, 7000, 0, 220);//and here (7000)
     if(ignition == "1") {
       if (rpm < 200) {
         battery = 0x02;
