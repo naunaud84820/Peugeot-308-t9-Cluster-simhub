@@ -11,7 +11,7 @@ Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions pe
 * Niveaux carburant faible ✅
 * T° Eau ✅
 * Voyant T° Eau excessive ✅
-* Rapports de vitesse R N 1-6 (7 et+ = P) ✅
+* Rapports de vitesse R N 1-6 (7 et+ = D-) ✅
 * Clignotant ✅
 * Feux position/croisement ✅
 * Feux de route ✅
