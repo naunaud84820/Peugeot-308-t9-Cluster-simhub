@@ -91,6 +91,7 @@ comme ça:
 18. Maintenant connecte les fils sur ton compteur comme indiqué dans la section [Pinout]([https://wiki.seeedstudio.com/CAN-BUS_Shield_V2.0/](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub?tab=readme-ov-file#pinout))  
 19. Si tout est bon, tu devrais voirs ton compteur réagir. Si il reçois bien le signal CanBus, celui-ci est complètement eteint.  
 20. Si il est allumé avec des voyants partout, il y à un problème! RDV sur ce [Discord](https://discord.gg/t5xhpxeHpS)  
+![clustercannok](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/clustercannok.jpg) ![clustercanok](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/clustercanok.jpg)
 21. Lance ton jeu et amuse toi!
 
 Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
