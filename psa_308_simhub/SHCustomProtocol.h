@@ -1,3 +1,4 @@
+//Credits: https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/ and SimHub
 /* copy paste this in simhub custom protocol
 format(round([Rpms], 0),'0') + ';' +
 isnull(round([SpeedKmh],0),'0') + ';' +
