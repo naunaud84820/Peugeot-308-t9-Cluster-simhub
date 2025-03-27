@@ -56,11 +56,15 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 
 Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
 
-#### Remerciement
+### Remerciement
 Albert.c pour l'aide avec les CanCodes
 xConnect pour les infos simhub
 [Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide
 
+### Partage & Autorisation
+Vous pouvez partager ce github partout.  
+**INTERDIT** d'heberger mon travail sans mon autorisation.  
+Vous pouvez modifier ce code comme bon vous semble, si vous le modifiez, je vous demande juste de m'inclure dans les credits.
 
 # English (google translate)
 Working
