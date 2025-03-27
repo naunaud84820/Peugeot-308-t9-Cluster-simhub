@@ -19,15 +19,17 @@ Sketch pour utiliser un compteur de peugeot 308 t9 sur simhub. (peut etre compat
 * Extinction Voyant STOP & (!) 🟥Cancode non trouves
 
 ### Requis
-* Simhub: https://www.simhubdash.com/download-2/
-* Arduino IDE: https://www.arduino.cc/en/software/
+* [Simhub](https://www.simhubdash.com/download-2/)
+* [Arduino IDE](https://www.arduino.cc/en/software/)
 * Arduino UNO
-* Can-bus shield v2.0: https://wiki.seeedstudio.com/CAN-BUS_Shield_V2.0/
+* [Can-bus shield v2.0](https://wiki.seeedstudio.com/CAN-BUS_Shield_V2.0/)
 * Fils jumpers
 * Alim 12v (j'ai utiliser une vielle alim ATX)
 
 ### Tutoriel
-En cours
+En cours  
+
+![simhubcfg](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/simhubcfg.png)
 
 ```
 format(round([Rpms], 0),'0') + ';' +
