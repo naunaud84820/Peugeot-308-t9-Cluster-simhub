@@ -1,19 +1,24 @@
 /* copy paste this in simhub custom protocol
-format(round([Rpms],0),'0') + ';' +
+format(round([Rpms], 0),'0') + ';' +
 isnull(round([SpeedKmh],0),'0') + ';' +
 isnull(round([FuelPercent],0),'0') + ';' +
-isnull(round([WaterTemperature], 0),'0') + ';' +
+isnull(round([WaterTemperature], 0), '0') + ';' +
 isnull([Gear],'0') + ';' +
 isnull([TurnIndicatorLeft],'0') + ';' +
 isnull([TurnIndicatorRight],'0') + ';' +
 isnull([EngineIgnitionOn],'0') + ';' +
 isnull([Handbrake],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.MotorValues.BrakeValues.ParkingBrake],'0') + ';' +
 isnull([ABSActive],'0') + ';' +
 isnull([TCActive],'0') + ';' +
 isnull([GameRawData.ShowLights],'0') + ';' +
 if([CarSettings_RPMShiftLight1] > 0, 1, 0) + ';' +
-isnull([DataCorePlugin.GameRawData.Lights.HighBeams],'0') + ';' +
-isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' 
+isnull([GameRawData.light_LowBeam],'0') + ';' +
+isnull([GameRawData.light_HighBeam],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamLow],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamHigh],'0') + ';' +
+isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';'
 */
 
 
