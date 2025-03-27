@@ -97,7 +97,7 @@ Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
 ## Remerciement
 Albert.c pour l'aide avec les CanCodes  
 [xConnect](https://xconnect.cc/) pour les infos simhub  
-[Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide
+[Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide  
 [PSA Can](https://autowp.github.io/) pour les codes
 
 ## Partage & Autorisation
