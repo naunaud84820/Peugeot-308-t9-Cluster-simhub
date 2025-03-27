@@ -50,7 +50,8 @@ pin 9 GND
 7. Arduino IDE devrait s'ouvrir.  
 8. Branche ton arduino à ton PC  
 9. Selectionne en haut le port COM de ton arduino puis le modele d'arduino que tu a (Arduino UNO par exemple)  
-10. en haut a droite clique sur la -> en haut à gauche pour envoyer le sketch sur ton arduino.  
+10. en haut a droite clique sur la -> en haut à gauche pour envoyer le sketch sur ton arduino.
+![ArduinoIDE1](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/ArduinoIDE1.png)
 11. si tout ce passe bien tu devrais avoir ce message en bas pour te dire que tout s'est bien passé.  
 ![ArduinoIDEok](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/ArduinoIDEok.png)
 
