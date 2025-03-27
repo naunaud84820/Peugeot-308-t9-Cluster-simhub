@@ -3,6 +3,7 @@ Sketch pour utiliser un compteur de peugeot 308 t9 sur simhub. (peut etre compat
 
 
 #### Francais:
+[English](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/tree/main?tab=readme-ov-file#english-google-translate)
 ## Disclaimer
 Cette page est là pour vous aider à comprendre le fonctionnement du canbus sur simhub!  
 Je ne suis pas résponsable de tout problèmes et/ou dommages sur votre materiel quel qu'il soit! 
