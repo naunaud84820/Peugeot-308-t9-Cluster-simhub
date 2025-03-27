@@ -1,1 +1,1 @@
-drag this folder in %Username%/Documents/arduino
+Extract libraries.rar in %Username%/Documents/arduino
