@@ -54,6 +54,13 @@ isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';'
 ```
 
+Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
+
+###Remerciement
+Albert.c pour l'aide avec les CanCodes
+xConnect pour les infos simhub
+[Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide
+
 
 # English (google translate)
 Working
