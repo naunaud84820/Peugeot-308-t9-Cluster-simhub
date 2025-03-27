@@ -2,13 +2,13 @@
 Sketch pour utiliser un compteur de peugeot 308 t9 sur simhub. (peut etre compatible avec d'autres compteurs PSA peugeot/citroen/opel)
 
 
-# Francais
+#### Francais:
 ## Disclaimer
 Cette page est là pour vous aider à comprendre le fonctionnement du canbus sur simhub!  
 Je ne suis pas résponsable de tout problèmes et/ou dommages sur votre materiel quel qu'il soit! 
 Vous manipulez votre propre materiel à vos risques et périls!
 
-### Fonctions
+## Fonctions
 Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions peuvent ne pas fonctionner dans d'autres jeux!  
 * Vitesse ✅
 * Tr/min ✅
@@ -25,7 +25,7 @@ Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions pe
 * Limiteur/Régulateur de vitesse 🟧Actif sur ets2/ats mais il me manque des cancodes pour qu'ils soit correctement fonctionnels
 * Extinction Voyant STOP & (!) 🟥Cancode non trouves
 
-### Requis
+## Requis
 * [Simhub](https://www.simhubdash.com/download-2/)
 * [Arduino IDE](https://www.arduino.cc/en/software/)
 * Arduino UNO
@@ -33,14 +33,14 @@ Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions pe
 * Fils jumpers
 * Alim 12v (j'ai utiliser une vielle alim ATX)
 
-### Pinout
+## Pinout
 pin 1 CanH  
 Pin 2 CanL  
 pin 7 12v  
 pin 9 GND  
 /!\ Les pins peuvent ne pas correspondre à ton compteur suivant le modèle de clui-ci, renseigne toi avant de faire les branchements, ou démonte le compteur et regarde ou vont les traces du circuit pour détérminés qui est quoi /!\
 
-### Tutoriel
+## Tutoriel
 1. Télécharge et installe Arduino IDE  
 2. Sur ton PC rend toi dans tes Documents puis Arduino.  
 3. Si un dossier libraries est présent, renome le en librariesold, afin de ne pas le perdre au cas ou.  
@@ -94,15 +94,15 @@ comme ça:
 
 Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
 
-### Remerciement
+## Remerciement
 Albert.c pour l'aide avec les CanCodes  
 [xConnect](https://xconnect.cc/) pour les infos simhub  
 [Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide
 [PSA Can](https://autowp.github.io/) pour les codes
 
-### Partage & Autorisation
+## Partage & Autorisation
 **INTERDIT** d'heberger mon travail ailleur sans mon autorisation.  
 Vous pouvez modifier ce code comme bon vous semble, si vous le modifiez, je vous demande juste de m'inclure dans les credits.
 
-# English (google translate)
+#### English (google translate):
 Working
