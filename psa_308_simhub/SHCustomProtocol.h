@@ -41,16 +41,6 @@ public:
       rpm = 7000; //and here
     }
     rpmGate = map(rpm, 0, 7000, 0, 220);//and here (7000)
-    if(ignition == "1") {
-      if (rpm < 200) {
-        battery = 0x02;
-      } else {
-        battery = 0x00;
-      }
-    } else {
-      battery = 0x00;
-    }
-
     speed = FlowSerialReadStringUntil(';').toInt();
     spdGran = map(speed, 0, 254, 0, 100);
     if(spdGran > 254) {
@@ -82,7 +72,6 @@ public:
     } else {
       dwtemp = 0x00;
     }
-    
     gear = FlowSerialReadStringUntil(';');
     //byte 2:0x00 P, 0x10 R, 0x20 N, 0x32 D1, 0x34 D2, 0x36 D3, 0x38 D4, 0x3a D5, 0x3c D6, 0x90 1, 0x80 2, 0x70 3, 0x60 4, 0x50 5, 0x40 6
     if(gear == "N") {
@@ -115,8 +104,15 @@ public:
     }
     ignition = FlowSerialReadStringUntil(';');
     if(ignition == "1") {
-      ignit = 0x8e;
+      if (rpm < 100) {
+        battery = 0x02;
+        ignit = 0x8e;
+      } else {
+        battery = 0x00;
+        ignit = 0x8e;
+      }
     } else {
+      battery = 0x00;
       ignit = 0x00;
     }
     handbrake = FlowSerialReadStringUntil(';');
@@ -191,7 +187,7 @@ public:
         } else if(concate == "DL_BATTERY") {
           battery = 0x02;
         } else if(concate == "DL_ABS") {
-          warnLightd += 0x20;
+          warnLightd = 0x20;
         } else if(concate == "DL_HANDBRAKE") {
           parkBrake = 0x02;
         }
