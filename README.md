@@ -58,7 +58,7 @@ Beosin d'aide? Rejoins ce discord: https://discord.gg/t5xhpxeHpS
 
 ### Remerciement
 Albert.c pour l'aide avec les CanCodes  
-xConnect pour les infos simhub  
+[xConnect](https://xconnect.cc/) pour les infos simhub  
 [Neuros](https://discord.gg/t5xhpxeHpS) pour l'aide
 
 ### Partage & Autorisation
