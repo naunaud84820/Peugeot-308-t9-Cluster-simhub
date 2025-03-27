@@ -4,12 +4,14 @@ Sketch pour utiliser un compteur de peugeot 308 t9 sur simhub. (peut etre compat
 
 # Francais
 ### Fonctions
+Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions peuvent ne pas fonctionner dans d'autres jeux!  
 * Vitesse ✅
 * Tr/min ✅
 * Carburant ✅
 * Niveaux carburant faible ✅
 * T° Eau ✅
 * Voyant T° Eau excessive ✅
+* Rapports de vitesse R N 1-6 (7 et+ = P) ✅
 * Clignotant ✅
 * Feux position/croisement ✅
 * Feux de route ✅
