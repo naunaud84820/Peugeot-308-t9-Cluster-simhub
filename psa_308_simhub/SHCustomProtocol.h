@@ -50,13 +50,21 @@ public:
     if(speed > 254) {
       speed = 254;
     }
-    spdGran = speed/2.605;
+    int speedcalc = 0;
+    if (speed == 0) {
+      speedcalc = 0;
+    } else if((speed % 2) == 0) {
+      speedcalc = 1;
+    } else {
+      speedcalc = 2;
+    }
+    spdGran = ((speed - speedcalc) * 100) / 256;
     if(spdGran < 0) {
       spdGran = 0;
     }
-    spdTune = (speed - spdGran*2.605)*50;
-    if(spdTune > 1000) {
-      spdTune = 1000;
+    spdTune = ((speed - speedcalc) * 100) % 256;
+    if(spdTune > 0) {
+      spdTune = 0;
     }
     fuel = FlowSerialReadStringUntil(';');
     fuelex = fuel.toInt();
@@ -199,6 +207,9 @@ public:
       warnLightd += 0x00;
     }
     wheeldmgscs = FlowSerialReadStringUntil(';');
+    if(wheeldmgscs > "1") {
+      wheeldmgscs = "0";
+    }
     if(wheeldmgscs > "0.50") {
       tyrepressure = 0x80;
     } else {
