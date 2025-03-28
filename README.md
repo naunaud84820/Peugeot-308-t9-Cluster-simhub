@@ -84,7 +84,10 @@ isnull([GameRawData.light_HighBeam],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamLow],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamHigh],'0') + ';' +
 isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
 ```
 comme ça:  
 ![simhubcode](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/simhubcode.png)
@@ -189,7 +192,10 @@ isnull([GameRawData.light_HighBeam],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamLow],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamHigh],'0') + ';' +
 isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
 ```
 Like this:  
 ![simhubcode](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/simhubcode.png)
