@@ -20,7 +20,10 @@ isnull([GameRawData.light_HighBeam],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamLow],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamHigh],'0') + ';' +
 isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
 */
 
 
@@ -28,8 +31,8 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 #define _SHCUSTOMPROTOCOL_H_
 #include <Arduino.h>
 
-String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruiseControl, cruiseControlspd;
-int rpm, rpmGate, speed, spdGran, spdTune, hbint, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl;
+String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruiseControl, cruiseControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs;
+int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl, chassisdmg, enginedmg, tyrepressure;
 class SHCustomProtocol {
 private:
 
@@ -109,36 +112,40 @@ public:
       turn += 0x04;
     }
     ignition = FlowSerialReadStringUntil(';');
+    warnLightd = 0;
     if(ignition == "1") {
       if (rpm < 100) {
+        warnLightd += 0x02;
         battery = 0x02;
         ignit = 0x8e;
       } else {
+        warnLightd += 0x00;
         battery = 0x00;
         ignit = 0x8e;
       }
     } else {
+      warnLightd += 0x00;
       battery = 0x00;
       ignit = 0x00;
     }
     handbrake = FlowSerialReadStringUntil(';');
-    hbint = handbrake.toInt();
-    if(hbint > 10) {
-      parkBrake = 0x02;
+    parkBrake = 0;
+    if(handbrake > "10") {
+      parkBrake += 0x02;
     } else {
-      parkBrake = 0;
+      parkBrake += 0;
     }
     scshandbrake = FlowSerialReadStringUntil(';');
     if(scshandbrake == "True") {
-      parkBrake = 0x02;
+      parkBrake += 0x02;
     } else {
-      parkBrake = 0;
+      parkBrake += 0;
     }
     ABSS = FlowSerialReadStringUntil(';');
     if(ABSS == "1") {
-      warnLightd = 0x20;
+      warnLightd += 0x20;
     } else {
-      warnLightd = 0x00;
+      warnLightd += 0x00;
     }
     TCS = FlowSerialReadStringUntil(';');
     showLights = FlowSerialReadStringUntil(';');
@@ -179,6 +186,24 @@ public:
       cruiseCtrl = 0;
     }
     cruiseControlspd = FlowSerialReadStringUntil(';');
+    chassisdmgscs = FlowSerialReadStringUntil(';');
+    if(chassisdmg > "0.15") {
+      parkBrake += 0x80;
+    } else {
+      parkBrake += 0x00;
+    }
+    enginedmgscs = FlowSerialReadStringUntil(';');
+    if(enginedmgscs > "0.15") {
+      warnLightd += 0x02;
+    } else {
+      warnLightd += 0x00;
+    }
+    wheeldmgscs = FlowSerialReadStringUntil(';');
+    if(wheeldmgscs > "0.50") {
+      tyrepressure = 0x80;
+    } else {
+      tyrepressure = 0x00;
+    }
     String concate = "";
     int p = 0;
     while(p < showLights.length()) { // This is a parser for the ShowLights raw data from simhub.
@@ -193,9 +218,9 @@ public:
         } else if(concate == "DL_BATTERY") {
           battery = 0x02;
         } else if(concate == "DL_ABS") {
-          warnLightd = 0x20;
+          warnLightd += 0x20;
         } else if(concate == "DL_HANDBRAKE") {
-          parkBrake = 0x02;
+          parkBrake += 0x02;
         }
         concate="";
         continue;
@@ -225,7 +250,7 @@ public:
     //byte6 ABCDEFGH a=lowfuel  b=belt  c=?  d=belt  e=?  f=UREA  g=UREAblink  h=belt
 
     //Warning lights
-    opSend(0x168, dwtemp, 0x00, battery, warnLightd, 0x00, 0x00, 0x00, 0x00);
+    opSend(0x168, dwtemp, tyrepressure, battery, warnLightd, 0x00, 0x00, 0x00, 0x00);
     //byte1 ABCDEFGH a=dangerwatertemp b=? c=? d=? e=? f=(!) g=? h=?
     //byte2 ABCDEFGH a=tyrepressure b=? c=engineblink d=? e=autowipers f=? g=? h=+start
     //byte3 ABCDEFGH a=? b=? c=? d=? e=(!) f=? g=battery h=?
