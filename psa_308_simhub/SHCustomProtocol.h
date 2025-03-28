@@ -1,4 +1,5 @@
 //Credits: https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/ and SimHub
+
 /* copy paste this in simhub custom protocol
 format(round([Rpms], 0),'0') + ';' +
 isnull(round([SpeedKmh],0),'0') + ';' +
@@ -28,7 +29,7 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 #include <Arduino.h>
 
 String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruiseControl, cruiseControlspd;
-int rpm, rpmGate, speed, spdGran, hbint, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl;
+int rpm, rpmGate, speed, spdGran, spdTune, hbint, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl;
 class SHCustomProtocol {
 private:
 
@@ -43,12 +44,16 @@ public:
     }
     rpmGate = map(rpm, 0, 7000, 0, 220);//and here (7000)
     speed = FlowSerialReadStringUntil(';').toInt();
-    spdGran = map(speed, 0, 254, 0, 100);
-    if(spdGran > 254) {
-      spdGran = 254;
+    if(speed > 254) {
+      speed = 254;
     }
+    spdGran = speed/2.605;
     if(spdGran < 0) {
       spdGran = 0;
+    }
+    spdTune = (speed - spdGran*2.605)*50;
+    if(spdTune > 1000) {
+      spdTune = 1000;
     }
     fuel = FlowSerialReadStringUntil(';');
     fuelex = fuel.toInt();
@@ -207,7 +212,7 @@ public:
     //byte345 odometre 10, 13, 17=65870 
 
     // Speedo and rpm
-    opSend(0x0B6, rpmGate, 0xFF, spdGran, 0xff, 0x00, 0x00, 0x00, 0xD0);
+    opSend(0x0B6, rpmGate, 0xFF, spdGran, spdTune, 0x00, 0x00, 0x00, 0xD0);
     //byte1 rpm: 27=900rpm(ralentis) 220=7000rpm
     //byte3 speed: 100=254km/h 50=131km/h
     //map(Speed, 0, 250, 0, 1680)
