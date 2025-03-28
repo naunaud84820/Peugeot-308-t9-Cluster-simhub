@@ -113,7 +113,7 @@ This page is here to help you understand how the CAN bus works with SimHub!
 I am not responsible for any issues and/or damage to your hardware, whatever it may be!
 You handle your own hardware at your own risk!
 
-## Fonctions
+## Functions
 The functions have been tested in ETS2/ATS and BeamNG, some functions may not work in other games!
 
 * Speed ✅
