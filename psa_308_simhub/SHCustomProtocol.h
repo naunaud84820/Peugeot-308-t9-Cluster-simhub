@@ -60,6 +60,9 @@ public:
     }
     fuel = FlowSerialReadStringUntil(';');
     fuelex = fuel.toInt();
+    if(fuelex > 100) {
+      fuelex = 100; 
+    }
     if(ignition == "1") {
       if (fuelex < 10) {
         lowfuel = 0x80;
@@ -190,11 +193,11 @@ public:
     if(cruisespeed > 254) {
       cruisespeed = 254;
     }
-    cruiseGran = round(cruisespeed*100)/265;
+    cruiseGran = round(cruisespeed*100)/257;
     if(cruiseGran < 0) {
       cruiseGran = 0;
     }
-    cruiseTune = round((cruisespeed*100)/265)+cruisespeed;
+    cruiseTune = round((cruisespeed*100)/257)+cruisespeed;
     if(cruiseTune < 0) {
       cruiseTune = 0;
     }
