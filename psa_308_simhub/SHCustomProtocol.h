@@ -50,20 +50,12 @@ public:
     if(speed > 254) {
       speed = 254;
     }
-    int speedcalc = 0;
-    if (speed == 0) {
-      speedcalc = 0;
-    } else if((speed % 2) == 0) {
-      speedcalc = 1;
-    } else {
-      speedcalc = 2;
-    }
-    spdGran = ((speed - speedcalc) * 100) / 256;
+    spdGran = round(speed*100)/265;
     if(spdGran < 0) {
       spdGran = 0;
     }
-    spdTune = ((speed - speedcalc) * 100) % 256;
-    if(spdTune > 0) {
+    spdTune = round((speed*100)/265)+speed;
+    if(spdTune < 0) {
       spdTune = 0;
     }
     fuel = FlowSerialReadStringUntil(';');
@@ -189,7 +181,7 @@ public:
     }
     cruiseControl = FlowSerialReadStringUntil(';');
     if(cruiseControl == "True" ) {
-      cruiseCtrl = 0x88;
+      cruiseCtrl = 0x48;
     } else {
       cruiseCtrl = 0;
     }
@@ -279,12 +271,14 @@ public:
     opSend(0x221, 0x1, 0xFF, 0xFF, 0x01, 0x72, 0xFF, 0xFF, 0x00);
 
     //Cruise Control (main)
-    opSend(0x228, 0x00, 0x00, cruiseCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
-    //byte3 0x88 enable 0x00 disable
-    //byte4 0x80 limit
+    opSend(0x228, 0, 255, cruiseCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
+    //byte1 0-99 (speed)
+    //byte2 0-255 (fine)
+    //byte3 0x80=limit(84 on 80 off) 0x40=cruise (48 on 40 off)
+    //byte4 00 disabled 80 activated
 
     //Cruise Control (secondary, wont work without this)
-    opSend(0x1A8, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x07, 0xFA, 0x8c);
+    opSend(0x1A8, 0x00, 0x00, 0x00, 0x00, 0x00, 5, 5, 5);
     //byte678 right odometre
 
     //Navi stuff
