@@ -32,7 +32,7 @@ isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
 #include <Arduino.h>
 
 String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruiseControl, cruiseControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs;
-int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl, chassisdmg, enginedmg, tyrepressure;
+int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl, cruisespeed, cruiseTune, cruiseGran, tyrepressure;
 class SHCustomProtocol {
 private:
 
@@ -186,13 +186,31 @@ public:
       cruiseCtrl = 0;
     }
     cruiseControlspd = FlowSerialReadStringUntil(';');
+    cruisespeed = cruiseControlspd.toInt();
+    if(cruisespeed > 254) {
+      cruisespeed = 254;
+    }
+    cruiseGran = round(cruisespeed*100)/265;
+    if(cruiseGran < 0) {
+      cruiseGran = 0;
+    }
+    cruiseTune = round((cruisespeed*100)/265)+cruisespeed;
+    if(cruiseTune < 0) {
+      cruiseTune = 0;
+    }
     chassisdmgscs = FlowSerialReadStringUntil(';');
-    if(chassisdmg > "0.15") {
+    if(chassisdmgscs > "1") {
+      chassisdmgscs = "0";
+    }
+    if(chassisdmgscs > "0.15") {
       parkBrake += 0x80;
     } else {
       parkBrake += 0x00;
     }
     enginedmgscs = FlowSerialReadStringUntil(';');
+    if(enginedmgscs > "1") {
+      enginedmgscs = "0";
+    }
     if(enginedmgscs > "0.15") {
       warnLightd += 0x02;
     } else {
@@ -224,6 +242,9 @@ public:
           warnLightd += 0x20;
         } else if(concate == "DL_HANDBRAKE") {
           parkBrake += 0x02;
+        } else if(concate == "DL_FULLBEAM") {
+          turn += 0xc0;
+          turn += 0xe0;
         }
         concate="";
         continue;
@@ -235,12 +256,12 @@ public:
 
   void loop() { // Called once per arduino loop
     // Odometer/Ignition/Temp Gauge
-    opSend(0x0F6, ignit, tempex, 10, 13, 17, 0x8e, 0x00, 0x00);
+    opSend(0x0F6, ignit, tempex, 10, 13, 17, 0xff, 0xff, 0x20); //ignit
     //byte2 coolant t° 90=60°(0) 135=85° 150=90° 160=100°(max)
     //byte345 odometre 10, 13, 17=65870 
 
     // Speedo and rpm
-    opSend(0x0B6, rpmGate, 0xFF, spdGran, spdTune, 0x00, 0x00, 0x00, 0xD0);
+    opSend(0x0B6, rpmGate, 0, spdGran, spdTune, 0x00, 0x00, 0x00, 0xD0);
     //byte1 rpm: 27=900rpm(ralentis) 220=7000rpm
     //byte3 speed: 100=254km/h 50=131km/h
     //map(Speed, 0, 250, 0, 1680)
@@ -249,6 +270,7 @@ public:
     opSend(0x128, turn, gearex, 0x00, parkBrake, 0x00, lowfuel, shiftL, 0x00);
     //byte1 ABCDEFGH a=position beam  b=low beam  c=high beam  d=AB AV  e=AB AR  f=right turn  g=left turn  h=?
     //byte2 :0x00 P, 0x10 R, 0x20 N, 0x32 D1, 0x34 D2, 0x36 D3, 0x38 D4, 0x3a D5, 0x3c D6, 0x90 1, 0x80 2, 0x70 3, 0x60 4, 0x50 5, 0x40 6
+    //byte3 ABCDEFGH a=? b=? c=S d=? e=? f=? g=enable/disable byte2
     //byte4 ABCDEFGH a=service  b=stop  c=?  d=?  e=startandstopblink  f=startandstop  g=parkbrake  h=autoparkbrakeoff
     //byte6 ABCDEFGH a=lowfuel  b=belt  c=?  d=belt  e=?  f=UREA  g=UREAblink  h=belt
 
@@ -271,7 +293,7 @@ public:
     opSend(0x221, 0x1, 0xFF, 0xFF, 0x01, 0x72, 0xFF, 0xFF, 0x00);
 
     //Cruise Control (main)
-    opSend(0x228, 0, 255, cruiseCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
+    opSend(0x228, cruiseGran, cruiseTune, cruiseCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
     //byte1 0-99 (speed)
     //byte2 0-255 (fine)
     //byte3 0x80=limit(84 on 80 off) 0x40=cruise (48 on 40 off)
@@ -297,7 +319,11 @@ public:
 
     //Economy mode
     opSend(0x236, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); //19= economy mode
+
     
+    //Maintenance km
+    opSend(0x3e7, 0x10, 0x00, 0x00, 0x03, 0x63, 0x01, 0x31, 0x05);
+
   }
 
   // Called once between each byte read on arduino, do not add any code here, unless you know what you are doing.
