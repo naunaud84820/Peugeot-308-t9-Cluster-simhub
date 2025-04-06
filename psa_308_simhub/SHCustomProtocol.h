@@ -67,16 +67,11 @@ public:
       spddecimalValue = 0;
     }
     String spdhexValue = String(spddecimalValue, HEX);
-    if (spdhexValue.length() > 2) {
-      spdhex1 = "0x" + spdhexValue.substring(0, 2);
-      spdhex2 = "0x" + spdhexValue.substring(2, 4);
-      if (spdhexValue.length() == 3) {
-        spdhex1 = "0x0" + spdhexValue.substring(0, 1);
-        spdhex2 = "0x" + spdhexValue.substring(1, 3);
-      }
-    } else {
-      spdhex2 = "0x" + spdhexValue;
+    while (spdhexValue.length() < 4) {
+      spdhexValue = "0" + spdhexValue;
     }
+    spdhex1 = "0x" + spdhexValue.substring(0, 2);
+    spdhex2 = "0x" + spdhexValue.substring(2, 4);
     int spdintHex1 = strtol(spdhex1.substring(2).c_str(), NULL, 16);
     int spdintHex2 = strtol(spdhex2.substring(2).c_str(), NULL, 16);
     float spddecHex1 = (float)spdintHex1;
@@ -219,20 +214,12 @@ public:
       cruisspeed = 254;
     }
     int cruisdecimalValue = cruisspeed*100;
-    if(cruisdecimalValue < 0) {
-      cruisdecimalValue = 0;
-    }
     String cruishexValue = String(cruisdecimalValue, HEX);
-    if (cruishexValue.length() > 2) {
-      cruishex1 = "0x" + cruishexValue.substring(0, 2);
-      cruishex2 = "0x" + cruishexValue.substring(2, 4);
-      if (cruishexValue.length() == 3) {
-        cruishex1 = "0x0" + cruishexValue.substring(0, 1);
-        cruishex2 = "0x" + cruishexValue.substring(1, 3);
-      }
-    } else {
-      cruishex2 = "0x" + cruishexValue;
+    while (cruishexValue.length() < 4) {
+      cruishexValue = "0" + cruishexValue;
     }
+    cruishex1 = "0x" + cruishexValue.substring(0, 2);
+    cruishex2 = "0x" + cruishexValue.substring(2, 4);
     int cruisintHex1 = strtol(cruishex1.substring(2).c_str(), NULL, 16);
     int cruisintHex2 = strtol(cruishex2.substring(2).c_str(), NULL, 16);
     float cruisdecHex1 = (float)cruisintHex1;
@@ -270,25 +257,12 @@ public:
     long odob = odo.toInt()*10;
     long ododecimalValue = odob;
     String odohexValue = String(ododecimalValue, HEX);
-    if (odohexValue.length() > 4) {
-      odohex1 = "0x" + odohexValue.substring(0, 2);
-      odohex2 = "0x" + odohexValue.substring(2, 4);
-      odohex3 = "0x" + odohexValue.substring(4, 6);
-      if (odohexValue.length() == 5) {
-        odohex1 = "0x0" + odohexValue.substring(0, 1);
-        odohex2 = "0x" + odohexValue.substring(1, 3);
-        odohex3 = "0x" + odohexValue.substring(3, 5);
-      }
-    } else if (odohexValue.length() > 2) {
-      odohex2 = "0x" + odohexValue.substring(2, 4);
-      odohex3 = "0x" + odohexValue.substring(4, 6);
-      if (odohexValue.length() == 3) {
-        odohex2 = "0x0" + odohexValue.substring(0, 1);
-        odohex3 = "0x" + odohexValue.substring(1, 3);
-      } 
-    } else {
-      odohex3 = "0x" + odohexValue;
+    while (odohexValue.length() < 6) {
+      odohexValue = "0" + odohexValue;
     }
+    odohex1 = "0x" + odohexValue.substring(0, 2);
+    odohex2 = "0x" + odohexValue.substring(2, 4);
+    odohex3 = "0x" + odohexValue.substring(4, 6);
     int odointHex1 = strtol(odohex1.substring(2).c_str(), NULL, 16);
     int odointHex2 = strtol(odohex2.substring(2).c_str(), NULL, 16);
     int odointHex3 = strtol(odohex3.substring(2).c_str(), NULL, 16);
@@ -302,25 +276,12 @@ public:
     long gpsb = gps.toInt();
     long gpsdecimalValue = gpsb;
     String gpshexValue = String(gpsdecimalValue, HEX);
-    if (gpshexValue.length() > 4) {
-      gpshex1 = "0x" + gpshexValue.substring(0, 2);
-      gpshex2 = "0x" + gpshexValue.substring(2, 4);
-      gpshex3 = "0x" + gpshexValue.substring(4, 6);
-      if (gpshexValue.length() == 5) {
-        gpshex1 = "0x0" + gpshexValue.substring(0, 1);
-        gpshex2 = "0x" + gpshexValue.substring(1, 3);
-        gpshex3 = "0x" + gpshexValue.substring(3, 5);
-      }
-    } else if (gpshexValue.length() > 2) {
-      gpshex2 = "0x" + gpshexValue.substring(2, 4);
-      gpshex3 = "0x" + gpshexValue.substring(4, 6);
-      if (gpshexValue.length() == 3) {
-        gpshex2 = "0x0" + gpshexValue.substring(0, 1);
-        gpshex3 = "0x" + gpshexValue.substring(1, 3);
-      } 
-    } else {
-      gpshex3 = "0x" + gpshexValue;
+    while (gpshexValue.length() < 6) {
+      gpshexValue = "0" + gpshexValue;
     }
+    gpshex1 = "0x" + gpshexValue.substring(0, 2);
+    gpshex2 = "0x" + gpshexValue.substring(2, 4);
+    gpshex3 = "0x" + gpshexValue.substring(4, 6);
     int gpsintHex1 = strtol(gpshex1.substring(2).c_str(), NULL, 16);
     int gpsintHex2 = strtol(gpshex2.substring(2).c_str(), NULL, 16);
     int gpsintHex3 = strtol(gpshex3.substring(2).c_str(), NULL, 16);
