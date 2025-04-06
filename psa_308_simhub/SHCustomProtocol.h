@@ -24,7 +24,8 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';' +
+isnull([GameRawData.NavigationValues.NavigationDistance],'0') + ';'
 */
 
 
@@ -32,8 +33,8 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + '
 #define _SHCUSTOMPROTOCOL_H_
 #include <Arduino.h>
 
-String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruisControl, cruisControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs, odo;
-int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruisCtrl, cruisspeed, cruisTune, cruisGran, tyrepressure, odoGran, odoMid, odoLast;
+String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruisControl, cruisControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs, odo, gps;
+int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruisCtrl, cruisspeed, cruisTune, cruisGran, tyrepressure, odoGran, odoMid, odoLast, gpsGran, gpsMid, gpsLast;
 String spdhex1 = "";
 String spdhex2 = "";
 String cruishex1 = "";
@@ -41,6 +42,9 @@ String cruishex2 = "";
 String odohex1 = "";
 String odohex2 = "";
 String odohex3 = "";
+String gpshex1 = "";
+String gpshex2 = "";
+String gpshex3 = "";
 class SHCustomProtocol {
 private:
 
@@ -294,6 +298,38 @@ public:
     odoGran = ododecHex1;
     odoMid = ododecHex2;
     odoLast = ododecHex3;
+    gps = FlowSerialReadStringUntil(';');
+    long gpsb = gps.toInt();
+    long gpsdecimalValue = gpsb;
+    String gpshexValue = String(gpsdecimalValue, HEX);
+    if (gpshexValue.length() > 4) {
+      gpshex1 = "0x" + gpshexValue.substring(0, 2);
+      gpshex2 = "0x" + gpshexValue.substring(2, 4);
+      gpshex3 = "0x" + gpshexValue.substring(4, 6);
+      if (gpshexValue.length() == 5) {
+        gpshex1 = "0x0" + gpshexValue.substring(0, 1);
+        gpshex2 = "0x" + gpshexValue.substring(1, 3);
+        gpshex3 = "0x" + gpshexValue.substring(3, 5);
+      }
+    } else if (gpshexValue.length() > 2) {
+      gpshex2 = "0x" + gpshexValue.substring(2, 4);
+      gpshex3 = "0x" + gpshexValue.substring(4, 6);
+      if (gpshexValue.length() == 3) {
+        gpshex2 = "0x0" + gpshexValue.substring(0, 1);
+        gpshex3 = "0x" + gpshexValue.substring(1, 3);
+      } 
+    } else {
+      gpshex3 = "0x" + gpshexValue;
+    }
+    int gpsintHex1 = strtol(gpshex1.substring(2).c_str(), NULL, 16);
+    int gpsintHex2 = strtol(gpshex2.substring(2).c_str(), NULL, 16);
+    int gpsintHex3 = strtol(gpshex3.substring(2).c_str(), NULL, 16);
+    float gpsdecHex1 = (float)gpsintHex1;
+    float gpsdecHex2 = (float)gpsintHex2;
+    float gpsdecHex3 = (float)gpsintHex3;
+    gpsGran = gpsdecHex1;
+    gpsMid = gpsdecHex2;
+    gpsLast = gpsdecHex3;
     String concate = "";
     int p = 0;
     while(p < showLights.length()) { // This is a parser for the ShowLights raw data from simhub.
@@ -369,7 +405,7 @@ public:
     //byte4 00 disabled 80 activated
 
     //Cruise Control (secondary, wont work without this)
-    opSend(0x1A8, 0x00, 0x00, 0x00, 0x00, 0x00, 5, 5, 5);
+    opSend(0x1A8, 0x00, 0x00, 0x00, 0x00, 0x00, gpsGran, gpsMid, gpsLast);
     //byte678 right odometre
 
     //Navi stuff
