@@ -23,7 +23,8 @@ isnull([DataCorePlugin.GameRawData.Drivetrain.CruiseControl],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed.Kph],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';' +
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';'
 */
 
 
@@ -31,8 +32,15 @@ isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';'
 #define _SHCUSTOMPROTOCOL_H_
 #include <Arduino.h>
 
-String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruiseControl, cruiseControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs;
-int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruiseCtrl, cruisespeed, cruiseTune, cruiseGran, tyrepressure;
+String fuel, temp, gear, turnL, turnR, ignition, handbrake, scshandbrake, ABSS, TCS, showLights, shiftLight, lowBeams, highBeams, scslowBeams, scshighBeams, cruisControl, cruisControlspd, chassisdmgscs, enginedmgscs, wheeldmgscs, odo;
+int rpm, rpmGate, speed, spdGran, spdTune, parkBrake, turn, beams, ignit, gearex, fuelex, tempint, tempex, dwtemp, lowfuel, battery, warnLightd, shiftL, cruisCtrl, cruisspeed, cruisTune, cruisGran, tyrepressure, odoGran, odoMid, odoLast;
+String spdhex1 = "";
+String spdhex2 = "";
+String cruishex1 = "";
+String cruishex2 = "";
+String odohex1 = "";
+String odohex2 = "";
+String odohex3 = "";
 class SHCustomProtocol {
 private:
 
@@ -50,14 +58,27 @@ public:
     if(speed > 254) {
       speed = 254;
     }
-    spdGran = round(speed*100)/265;
-    if(spdGran < 0) {
-      spdGran = 0;
+    int spddecimalValue = (speed-3)*100;
+    if(spddecimalValue < 0) {
+      spddecimalValue = 0;
     }
-    spdTune = round((speed*100)/265)+speed;
-    if(spdTune < 0) {
-      spdTune = 0;
+    String spdhexValue = String(spddecimalValue, HEX);
+    if (spdhexValue.length() > 2) {
+      spdhex1 = "0x" + spdhexValue.substring(0, 2);
+      spdhex2 = "0x" + spdhexValue.substring(2, 4);
+      if (spdhexValue.length() == 3) {
+        spdhex1 = "0x0" + spdhexValue.substring(0, 1);
+        spdhex2 = "0x" + spdhexValue.substring(1, 3);
+      }
+    } else {
+      spdhex2 = "0x" + spdhexValue;
     }
+    int spdintHex1 = strtol(spdhex1.substring(2).c_str(), NULL, 16);
+    int spdintHex2 = strtol(spdhex2.substring(2).c_str(), NULL, 16);
+    float spddecHex1 = (float)spdintHex1;
+    float spddecHex2 = (float)spdintHex2;
+    spdGran = spddecHex1;
+    spdTune = spddecHex2;
     fuel = FlowSerialReadStringUntil(';');
     fuelex = fuel.toInt();
     if(fuelex > 100) {
@@ -182,25 +203,38 @@ public:
     } else {
       turn += 0;
     }
-    cruiseControl = FlowSerialReadStringUntil(';');
-    if(cruiseControl == "True" ) {
-      cruiseCtrl = 0x48;
+    cruisControl = FlowSerialReadStringUntil(';');
+    if(cruisControl == "True" ) {
+      cruisCtrl = 0x48;
     } else {
-      cruiseCtrl = 0;
+      cruisCtrl = 0;
     }
-    cruiseControlspd = FlowSerialReadStringUntil(';');
-    cruisespeed = cruiseControlspd.toInt();
-    if(cruisespeed > 254) {
-      cruisespeed = 254;
+    cruisControlspd = FlowSerialReadStringUntil(';');
+    cruisspeed = cruisControlspd.toInt();
+    if(cruisspeed > 254) {
+      cruisspeed = 254;
     }
-    cruiseGran = round(cruisespeed*100)/257;
-    if(cruiseGran < 0) {
-      cruiseGran = 0;
+    int cruisdecimalValue = cruisspeed*100;
+    if(cruisdecimalValue < 0) {
+      cruisdecimalValue = 0;
     }
-    cruiseTune = round((cruisespeed*100)/257)+cruisespeed;
-    if(cruiseTune < 0) {
-      cruiseTune = 0;
+    String cruishexValue = String(cruisdecimalValue, HEX);
+    if (cruishexValue.length() > 2) {
+      cruishex1 = "0x" + cruishexValue.substring(0, 2);
+      cruishex2 = "0x" + cruishexValue.substring(2, 4);
+      if (cruishexValue.length() == 3) {
+        cruishex1 = "0x0" + cruishexValue.substring(0, 1);
+        cruishex2 = "0x" + cruishexValue.substring(1, 3);
+      }
+    } else {
+      cruishex2 = "0x" + cruishexValue;
     }
+    int cruisintHex1 = strtol(cruishex1.substring(2).c_str(), NULL, 16);
+    int cruisintHex2 = strtol(cruishex2.substring(2).c_str(), NULL, 16);
+    float cruisdecHex1 = (float)cruisintHex1;
+    float cruisdecHex2 = (float)cruisintHex2;
+    cruisGran = cruisdecHex1;
+    cruisTune = cruisdecHex2;
     chassisdmgscs = FlowSerialReadStringUntil(';');
     if(chassisdmgscs > "1") {
       chassisdmgscs = "0";
@@ -228,6 +262,38 @@ public:
     } else {
       tyrepressure = 0x00;
     }
+    odo = FlowSerialReadStringUntil(';');
+    long odob = odo.toInt()*10;
+    long ododecimalValue = odob;
+    String odohexValue = String(ododecimalValue, HEX);
+    if (odohexValue.length() > 4) {
+      odohex1 = "0x" + odohexValue.substring(0, 2);
+      odohex2 = "0x" + odohexValue.substring(2, 4);
+      odohex3 = "0x" + odohexValue.substring(4, 6);
+      if (odohexValue.length() == 5) {
+        odohex1 = "0x0" + odohexValue.substring(0, 1);
+        odohex2 = "0x" + odohexValue.substring(1, 3);
+        odohex3 = "0x" + odohexValue.substring(3, 5);
+      }
+    } else if (odohexValue.length() > 2) {
+      odohex2 = "0x" + odohexValue.substring(2, 4);
+      odohex3 = "0x" + odohexValue.substring(4, 6);
+      if (odohexValue.length() == 3) {
+        odohex2 = "0x0" + odohexValue.substring(0, 1);
+        odohex3 = "0x" + odohexValue.substring(1, 3);
+      } 
+    } else {
+      odohex3 = "0x" + odohexValue;
+    }
+    int odointHex1 = strtol(odohex1.substring(2).c_str(), NULL, 16);
+    int odointHex2 = strtol(odohex2.substring(2).c_str(), NULL, 16);
+    int odointHex3 = strtol(odohex3.substring(2).c_str(), NULL, 16);
+    float ododecHex1 = (float)odointHex1;
+    float ododecHex2 = (float)odointHex2;
+    float ododecHex3 = (float)odointHex3;
+    odoGran = ododecHex1;
+    odoMid = ododecHex2;
+    odoLast = ododecHex3;
     String concate = "";
     int p = 0;
     while(p < showLights.length()) { // This is a parser for the ShowLights raw data from simhub.
@@ -259,7 +325,7 @@ public:
 
   void loop() { // Called once per arduino loop
     // Odometer/Ignition/Temp Gauge
-    opSend(0x0F6, ignit, tempex, 10, 13, 17, 0xff, 0xff, 0x20); //ignit
+    opSend(0x0F6, ignit, tempex, odoGran, odoMid, odoLast, 0xff, 0xff, 0x20); //ignit
     //byte2 coolant t° 90=60°(0) 135=85° 150=90° 160=100°(max)
     //byte345 odometre 10, 13, 17=65870 
 
@@ -296,7 +362,7 @@ public:
     opSend(0x221, 0x1, 0xFF, 0xFF, 0x01, 0x72, 0xFF, 0xFF, 0x00);
 
     //Cruise Control (main)
-    opSend(0x228, cruiseGran, cruiseTune, cruiseCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
+    opSend(0x228, cruisGran, cruisTune, cruisCtrl, 0x80, 0x00, 0x00, 0x00, 0x00);
     //byte1 0-99 (speed)
     //byte2 0-255 (fine)
     //byte3 0x80=limit(84 on 80 off) 0x40=cruise (48 on 40 off)
@@ -323,9 +389,11 @@ public:
     //Economy mode
     opSend(0x236, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00); //19= economy mode
 
-    
     //Maintenance km
     opSend(0x3e7, 0x10, 0x00, 0x00, 0x03, 0x63, 0x01, 0x31, 0x05);
+
+    //Informational message
+    opSend(0x1a1, 0xFF, 0xFF, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
 
   }
 
