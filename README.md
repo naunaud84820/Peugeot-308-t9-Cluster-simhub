@@ -25,6 +25,7 @@ Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions pe
 * Voyant Batterie (contact mis+0rpm)✅
 * Régulateur de vitesse ✅ Actif sur ets2/ats
 * Compteur KM ✅ Actif sur ets2/ats
+* Compteur KM journalier ✅ Actif sur ets2/ats (Distance restante GPS)
 * Extinction Voyant STOP & (!) 🟥Cancode non trouves
 
 ## Requis
@@ -89,7 +90,8 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';' +
+isnull([GameRawData.NavigationValues.NavigationDistance],'0') + ';'
 ```
 comme ça:  
 ![simhubcode](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/simhubcode.png)
@@ -135,6 +137,7 @@ The functions have been tested in ETS2/ATS and BeamNG, some functions may not wo
 * Battery light (ignition on + 0rpm) ✅
 * Cruise control ✅ Active in ETS2/ATS
 * Odometer ✅ Active in ETS2/ATS
+* Daily Odometer ✅ Active in ETS2/ATS (GPS Distance Left)
 * STOP & (!) light off 🟥 CAN code not found
 
 ## Requirements
@@ -199,7 +202,8 @@ isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.CruiseControlSpeed
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Chassis],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.Engine],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.DamageValues.WheelsAvg],'0') + ';' +
-isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';'
+isnull([GameRawData.TruckValues.CurrentValues.DashboardValues.Odometer],'0') + ';' +
+isnull([GameRawData.NavigationValues.NavigationDistance],'0') + ';'
 ```
 Like this:  
 ![simhubcode](https://github.com/naunaud84820/Peugeot-308-t9-Cluster-simhub/blob/main/img/simhubcode.png)
