@@ -14,7 +14,7 @@ isnull([GameRawData.TruckValues.CurrentValues.MotorValues.BrakeValues.ParkingBra
 isnull([ABSActive],'0') + ';' +
 isnull([TCActive],'0') + ';' +
 isnull([GameRawData.ShowLights],'0') + ';' +
-if([CarSettings_RPMShiftLight1] > 0, 1, 0) + ';' +
+if([CarSettings_RPMShiftLight2] > 0, 1, 0) + ';' +
 isnull([GameRawData.light_LowBeam],'0') + ';' +
 isnull([GameRawData.light_HighBeam],'0') + ';' +
 isnull([GameRawData.TruckValues.CurrentValues.LightsValues.BeamLow],'0') + ';' +
