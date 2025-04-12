@@ -26,7 +26,6 @@ Les fonctions ont été testées dans ETS2/ATS et BeamNG, certaines fonctions pe
 * Régulateur de vitesse ✅ Actif sur ets2/ats
 * Compteur KM ✅ Actif sur ets2/ats
 * Compteur KM journalier ✅ Actif sur ets2/ats (Distance restante GPS)
-* Extinction Voyant STOP & (!) 🟥Cancode non trouves
 
 ## Requis
 * [Simhub](https://www.simhubdash.com/download-2/)
@@ -138,7 +137,6 @@ The functions have been tested in ETS2/ATS and BeamNG, some functions may not wo
 * Cruise control ✅ Active in ETS2/ATS
 * Odometer ✅ Active in ETS2/ATS
 * Daily Odometer ✅ Active in ETS2/ATS (GPS Distance Left)
-* STOP & (!) light off 🟥 CAN code not found
 
 ## Requirements
 * [Simhub](https://www.simhubdash.com/download-2/)
